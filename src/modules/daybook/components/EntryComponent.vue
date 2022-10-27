@@ -1,22 +1,43 @@
 <template>
   <div class="entry-container mb-3 p-2 pointer"
-    @click="$router.push({name:'entry', params:{id:10}})"
+    @click="$router.push({name:'entry', params:{ id: entry.id }})"
   >
       <div class="entry-tittle d-flex">
-            <span class="text-primary fw-bold">15</span>
-            <span class="mx-1">Mes</span>
-            <span class="mx-2 fw-light fs-5">2022</span>
+            <span class="text-primary fw-bold">{{day}}</span>
+            <span class="mx-1">{{month}}</span>
+            <span class="mx-2 fw-light fs-5">{{yearDay}}</span>
       </div>
       <div class="entry-description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sit asperiores, voluptate voluptates veritatis repudiandae quibusdam minus et libero impedit ullam optio repellendus iure commodi id sed quia, numquam cum vero labore facilis. Nobis sapiente nostrum, eum, perferendis sint repellat ad molestiae officiis cumque voluptatum nisi doloremque harum. Quis delectus at labore, quibusdam voluptas ut debitis! Saepe excepturi quas amet earum dolore reprehenderit corrupti vero recusandae exercitationem totam, consectetur debitis quod cupiditate incidunt iure. Qui id enim delectus dolores sapiente, ipsa ad nesciunt placeat commodi culpa doloribus soluta optio deserunt praesentium maiores cumque sed labore, nostrum mollitia aut sunt consequuntur.
-
+        {{shortText}}
       </div>
   </div>
 </template>
 
 <script>
+import getDayMonthYear from '../helpers/getDayMonthYear';
 export default {
-
+  props: {
+    entry: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    shortText() {
+      return ( this.entry.text.length > 300) 
+      ? this.entry.text.substring(0,300) + "..."
+      : this.entry.text
+    },
+    day () {
+      return getDayMonthYear(this.entry.date).day
+    },
+    month () {
+      return getDayMonthYear(this.entry.date).month
+    },
+    yearDay () {
+      return getDayMonthYear(this.entry.date).yearDay
+    }
+  }
 }
 </script>
 
